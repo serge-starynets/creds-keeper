@@ -6,6 +6,9 @@ const app = express();
 // Connect Database
 connectDb();
 
+// Init Middleware
+app.use(express.json({ extended: false }));
+
 app.get('/',  (req, res) => res.send({ msg: 'Welcome to the creds-keeper API...' }));
 
 // Define routes
