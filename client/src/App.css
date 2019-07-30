@@ -293,6 +293,31 @@ img {
   border-radius: 50%;
 }
 
+.badge-social {
+  background: lightskyblue;
+  color: #222;
+}
+
+.badge-entertainment {
+  background: orange;
+  color: darkred;
+}
+
+.badge-educational {
+  background: var(--light-color);
+  color: #333;
+}
+
+.badge-professional {
+  background: var(--primary-color);
+  color: white;
+}
+
+.badge-other {
+  background: var(--dark-color);
+  color: #ccc;
+}
+
 /* Forms */
 input {
   margin: 1.2rem 0;

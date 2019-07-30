@@ -1,11 +1,15 @@
 import React from 'react'
+import Creds from '../creds/Creds';
 
 const Home = () => {
   return (
+    <div className="grid-2">
+      <div>{ /* Cred form */ }</div>
     <div>
-      <h1>Home</h1>
+    <Creds />
     </div>
-  )
+    </div>
+  );
 }
 
 export default Home
