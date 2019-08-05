@@ -45,6 +45,10 @@ const CredState = props => {
   const [state, dispatch] = useReducer(credReducer, initialState);
 
   // Add cred
+  const addCred = cred => {
+    cred.id = uuid.v4();
+    dispatch({ type: ADD_CRED, payload: cred });
+  }
 
   // Delete cred
 
@@ -61,7 +65,8 @@ const CredState = props => {
   return (
     <CredContext.Provider
       value={{
-        creds: state.creds
+        creds: state.creds,
+        addCred
       }}
     >
       {props.children}

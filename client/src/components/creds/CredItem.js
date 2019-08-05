@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CredItem = ({ cred }) => {
-  const { id, title, login, password, type, description } = cred;
+  const { title, login, password, type, description } = cred;
 
   const badgeType = type => {
     switch (type) {
