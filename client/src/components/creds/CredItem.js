@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useContext} from 'react';
 import PropTypes from 'prop-types';
+import CredContext from '../../context/cred/credContext';
 
 const CredItem = ({ cred }) => {
-  const { title, login, password, type, description } = cred;
+  const credContext = useContext(CredContext)
+  const { id, title, login, password, type, description } = cred;
+  const { deleteCred, setCurrent, clearCurrent } = credContext;
+
+  const onDelete = () => {
+    deleteCred(id);
+    clearCurrent();
+  }
 
   const badgeType = type => {
     switch (type) {
@@ -39,14 +47,14 @@ const CredItem = ({ cred }) => {
           </li>
         )}
         {description && (
-          <li style={{ fontStyle: 'italic' }}>
+          <li style={{ fontStyle: 'italic', color: '#777' }}>
             <i className="fas fa-book" /> {description}
           </li>
         )}
       </ul>
       <p>
-        <button className="btn btn-dark btn-sm">Edit</button>
-        <button className="btn btn-danger btn-sm">Delete</button>
+        <button className="btn btn-dark btn-sm" onClick={() => setCurrent(cred)}>Edit</button>
+        <button className="btn btn-danger btn-sm" onClick={onDelete}>Delete</button>
       </p>
     </div>
   );

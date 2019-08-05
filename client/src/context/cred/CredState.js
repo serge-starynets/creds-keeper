@@ -6,7 +6,7 @@ import {
   ADD_CRED,
   DELETE_CRED,
   SET_CURRENT,
-  CELAR_CURRENT,
+  CLEAR_CURRENT,
   UPDATE_CRED,
   FILTER_CRED,
   CLEAR_FILTER
@@ -39,7 +39,9 @@ const CredState = props => {
         type: 'other',
         description: 'testing creds'
       }
-    ]
+    ],
+    current: null,
+    filtered: null
   };
 
   const [state, dispatch] = useReducer(credReducer, initialState);
@@ -48,25 +50,49 @@ const CredState = props => {
   const addCred = cred => {
     cred.id = uuid.v4();
     dispatch({ type: ADD_CRED, payload: cred });
-  }
+  };
 
   // Delete cred
+  const deleteCred = id => {
+    dispatch({ type: DELETE_CRED, payload: id });
+  };
 
   // Set current cred
-
+  const setCurrent = cred => {
+    dispatch({ type: SET_CURRENT, payload: cred });
+  };
   // Clear current cred
-
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
   // Update cred
+  const updateCred = cred => {
+    dispatch({ type: UPDATE_CRED, payload: cred });
+  };
 
   // Filter creds
+  const filterCreds = text => {
+    dispatch({ type: FILTER_CRED, payload: text });
+  };
 
   // Clear filter
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
 
   return (
     <CredContext.Provider
       value={{
         creds: state.creds,
-        addCred
+        current: state.current,
+        filtered: state.filtered,
+        addCred,
+        deleteCred,
+        setCurrent,
+        clearCurrent,
+        updateCred,
+        filterCreds,
+        clearFilter
       }}
     >
       {props.children}

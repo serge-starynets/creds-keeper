@@ -1,6 +1,7 @@
 import React from 'react';
 import Creds from '../creds/Creds';
 import CredForm from '../creds/CredForm';
+import CredFilter from '../creds/CredFilter';
 
 const Home = () => {
   return (
@@ -9,6 +10,7 @@ const Home = () => {
         <CredForm />
       </div>
       <div>     
+        <CredFilter />
         <Creds />
       </div>
     </div>

@@ -1,8 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import CredContext from '../../context/cred/credContext';
 
 const CredForm = () => {
   const credContext = useContext(CredContext);
+
+  const { addCred, updateCred, clearCurrent, current } = credContext;
+
+  useEffect(() => {
+    if(current !== null) {
+      setCred(current);
+    } else {
+      setCred({
+        title: '',
+        login: '',
+        password: '',
+        type: 'other',
+        description: ''
+      });
+    }
+  }, [credContext, current]);
 
   const [cred, setCred] = useState({
     title: '',
@@ -18,19 +34,28 @@ const CredForm = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    credContext.addCred(cred);
-    setCred({
-      title: '',
-      login: '',
-      password: '',
-      type: 'other',
-      description: ''
-    });
+    if(current === null){
+      addCred(cred);
+    } else {
+      updateCred(cred)
+    }
+    // setCred({
+    //   title: '',
+    //   login: '',
+    //   password: '',
+    //   type: 'other',
+    //   description: ''
+    // });
+    clearAll();
   };
+
+  const clearAll = () => {
+    clearCurrent();
+  }
 
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-primary">Add Cred</h2>
+      <h2 className="text-primary">{current ? 'Edit Cred' : 'Add Cred'}</h2>
       <input
         type="text"
         placeholder="Title"
@@ -118,10 +143,16 @@ const CredForm = () => {
       <div>
         <input
           type="submit"
-          value="Add Cred"
+          value={current ? 'Update Cred' : 'Add Cred'}
           className="btn btn-primary btn-block"
         />
       </div>
+      {current && (<div>
+        <button className="btn btn-light btn-block" onClick={clearAll}>
+          Clear
+          </button>
+      </div>
+      )}
     </form>
   );
 };
