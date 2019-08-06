@@ -11,6 +11,11 @@ import Login from './components/auth/Login';
 import CredState from './context/cred/CredState';
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
+import setAuthToken from './utils/setAuthToken';
+
+if(localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 
 const App = () => {
   return (
