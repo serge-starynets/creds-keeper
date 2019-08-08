@@ -39,13 +39,6 @@ const CredForm = () => {
     } else {
       updateCred(cred)
     }
-    // setCred({
-    //   title: '',
-    //   login: '',
-    //   password: '',
-    //   type: 'other',
-    //   description: ''
-    // });
     clearAll();
   };
 

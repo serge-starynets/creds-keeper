@@ -1,60 +1,95 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
+import axios from 'axios';
 import CredContext from './credContext';
 import credReducer from './credReducer';
 import {
+  GET_CREDS,
   ADD_CRED,
   DELETE_CRED,
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_CRED,
   FILTER_CRED,
-  CLEAR_FILTER
+  CLEAR_CREDS,
+  CLEAR_FILTER,
+  CRED_ERROR
 } from '../types';
 
 const CredState = props => {
   const initialState = {
-    creds: [
-      {
-        id: 1,
-        title: 'Clarify API',
-        login: 'svsd@bigmir.net',
-        password: 'clarify',
-        type: 'professional',
-        description: 'Image recognition API'
-      },
-      {
-        id: 2,
-        title: 'Font Awesome',
-        login: 'starynets.sergey@gmail.com',
-        password: 'FontAwesome2#',
-        type: 'professional',
-        description: 'Frontend icons'
-      },
-      {
-        id: 3,
-        title: 'Testing',
-        login: 'test@test.net',
-        password: 'tteesstt',
-        type: 'other',
-        description: 'testing creds'
-      }
-    ],
+    creds: null,
     current: null,
-    filtered: null
+    filtered: null,
+    error: null
   };
 
   const [state, dispatch] = useReducer(credReducer, initialState);
 
+  // Get Creds
+  const getCreds = async () => {
+    try {
+      const res = await axios.get('/api/creds');
+
+      dispatch({
+        type: GET_CREDS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: CRED_ERROR,
+        payload: err.response.msg
+      });
+    }
+  };
+
   // Add cred
-  const addCred = cred => {
-    cred.id = uuid.v4();
-    dispatch({ type: ADD_CRED, payload: cred });
+  const addCred = async cred => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.post('/api/creds', cred, config);
+
+      dispatch({ type: ADD_CRED, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CRED_ERROR, payload: err.response.msg });
+    }
   };
 
   // Delete cred
-  const deleteCred = id => {
-    dispatch({ type: DELETE_CRED, payload: id });
+  const deleteCred = async id => {
+    try {
+      await axios.delete(`/api/creds/${id}`);
+
+      dispatch({ type: DELETE_CRED, payload: id });
+    } catch (err) {
+      dispatch({ type: CRED_ERROR, payload: err.response.msg });
+    }
+  };
+
+  // Update cred
+  const updateCred = async cred => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.put(`/api/creds/${cred._id}`, cred, config);
+
+      dispatch({ type: UPDATE_CRED, payload: res.data });
+    } catch (err) {
+      dispatch({ type: CRED_ERROR, payload: err.response.msg });
+    }
+  };
+
+  // Clear Creds
+  const clearCreds = () => {
+    dispatch({ type: CLEAR_CREDS });
   };
 
   // Set current cred
@@ -64,10 +99,6 @@ const CredState = props => {
   // Clear current cred
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT });
-  };
-  // Update cred
-  const updateCred = cred => {
-    dispatch({ type: UPDATE_CRED, payload: cred });
   };
 
   // Filter creds
@@ -86,13 +117,16 @@ const CredState = props => {
         creds: state.creds,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
+        getCreds,
         addCred,
         deleteCred,
         setCurrent,
         clearCurrent,
         updateCred,
         filterCreds,
-        clearFilter
+        clearFilter,
+        clearCreds
       }}
     >
       {props.children}

@@ -4,11 +4,11 @@ import CredContext from '../../context/cred/credContext';
 
 const CredItem = ({ cred }) => {
   const credContext = useContext(CredContext)
-  const { id, title, login, password, type, description } = cred;
+  const { _id, title, login, password, type, description } = cred;
   const { deleteCred, setCurrent, clearCurrent } = credContext;
 
   const onDelete = () => {
-    deleteCred(id);
+    deleteCred(_id);
     clearCurrent();
   }
 

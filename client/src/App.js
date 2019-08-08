@@ -7,7 +7,7 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import PrivateRoute from './components/routing/PrivateRout';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 import CredState from './context/cred/CredState';
 import AuthState from './context/auth/AuthState';
